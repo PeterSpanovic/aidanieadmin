@@ -1,0 +1,7 @@
+# .dev.vars — local development secrets (never commit this file)
+# Copy this to .dev.vars and fill in real values
+# wrangler dev will pick these up automatically
+
+ADMIN_PASSWORD=your-secure-password-here
+SESSION_SECRET=a-long-random-string-at-least-32-chars
+SUPABASE_SERVICE_KEY=your-supabase-service-role-key-here

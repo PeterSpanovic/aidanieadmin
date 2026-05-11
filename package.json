@@ -1,0 +1,14 @@
+{
+  "name": "danieai-admin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DanieAI Admin Panel — Cloudflare Worker",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "secrets": "node scripts/set-secrets.js"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
