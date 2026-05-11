@@ -638,11 +638,6 @@ async function loadConvs() {
     </tr>\`).join('')}
     </tbody>
   </table>\`;
-  el.addEventListener('click', e => {
-    const tr = e.target.closest('tr[data-conv-id]');
-    if (tr) openConv(tr.dataset.convId, tr.dataset.convTitle);
-  }, { once: true });
-
   $('#convPrev').disabled = convPage === 0;
   $('#convNext').disabled = data.length < 20;
   $('#convPageLabel').textContent = 'Page ' + (convPage + 1);
@@ -650,6 +645,10 @@ async function loadConvs() {
 
 $('#convPrev').addEventListener('click', () => { convPage--; loadConvs(); });
 $('#convNext').addEventListener('click', () => { convPage++; loadConvs(); });
+$('#convsBody').addEventListener('click', e => {
+  const tr = e.target.closest('tr[data-conv-id]');
+  if (tr) openConv(tr.dataset.convId, tr.dataset.convTitle);
+});
 
 // ── User detail drawer ──
 async function openUser(id) {
@@ -700,10 +699,6 @@ async function openUser(id) {
         </div>\`).join('') : '<div style="font-size:12px;color:var(--muted)">No conversations yet</div>'}
     </div>
   \`;
-  $('#drawerContent').addEventListener('click', e => {
-    const item = e.target.closest('[data-conv-id]');
-    if (item) openConv(item.dataset.convId, item.dataset.convTitle);
-  });
 }
 
 // ── Conversation detail drawer ──
@@ -735,6 +730,10 @@ function showDrawer(title, sub) {
 }
 $('#drawerClose').addEventListener('click', closeDrawer);
 $('#drawerOverlay').addEventListener('click', closeDrawer);
+$('#drawerContent').addEventListener('click', e => {
+  const item = e.target.closest('[data-conv-id]');
+  if (item) openConv(item.dataset.convId, item.dataset.convTitle);
+});
 function closeDrawer() {
   $('#drawer').classList.remove('open');
   $('#drawerOverlay').classList.remove('open');
