@@ -69,8 +69,8 @@ async function handleLogin(request, env) {
   const body = await request.json().catch(() => ({}));
   const { password } = body;
 
-  const adminPass = env["ADMIN_PASSWORD"] || "admin";
-  if (password !== adminPass) {
+  const adminPass = (env["ADMIN_PASSWORD"] || "admin").trim();
+  if (password.trim() !== adminPass) {
     return json({ error: "Invalid password" }, 401);
   }
 
