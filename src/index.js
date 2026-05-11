@@ -544,8 +544,8 @@ $$('.nav-tab').forEach(t => t.addEventListener('click', () => {
   $$('.nav-tab').forEach(x => x.classList.remove('active'));
   t.classList.add('active');
   activeTab = t.dataset.tab;
-  $('#tab-users').style.display = activeTab === 'users' ? '' : 'none';
-  $('#tab-conversations').style.display = activeTab === 'conversations' ? '' : 'none';
+  $('#tab-users').style.display = activeTab === 'users' ? 'block' : 'none';
+  $('#tab-conversations').style.display = activeTab === 'conversations' ? 'block' : 'none';
   if (activeTab === 'conversations') loadConvs();
 }));
 
