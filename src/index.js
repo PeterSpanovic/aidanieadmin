@@ -629,7 +629,7 @@ async function loadConvs() {
       <th>Title</th><th>Client</th><th>Started</th><th>Last Message</th><th>Status</th>
     </tr></thead>
     <tbody>
-    \${data.map(c => \`<tr class="clickable" onclick="openConv('\${c.id}',\${JSON.stringify(esc(c.title||'Untitled'))})">
+    \${data.map(c => \`<tr class="clickable" data-conv-id="\${c.id}" data-conv-title="\${esc(c.title||'Untitled conversation')}">
       <td style="color:var(--text)">\${esc(c.title || 'Untitled conversation')}</td>
       <td>\${esc(c.clients?.name || c.clients?.email || '—')}</td>
       <td>\${fmtDate(c.started_at)}</td>
@@ -638,6 +638,10 @@ async function loadConvs() {
     </tr>\`).join('')}
     </tbody>
   </table>\`;
+  el.addEventListener('click', e => {
+    const tr = e.target.closest('tr[data-conv-id]');
+    if (tr) openConv(tr.dataset.convId, tr.dataset.convTitle);
+  }, { once: true });
 
   $('#convPrev').disabled = convPage === 0;
   $('#convNext').disabled = data.length < 20;
@@ -690,12 +694,16 @@ async function openUser(id) {
     <div class="drawer-section">
       <h4>Conversations (\${convs.length})</h4>
       \${convs.length ? convs.map(c=>\`
-        <div class="conv-item" onclick="openConv('\${c.id}',\${JSON.stringify(esc(c.title||'Untitled'))})">
+        <div class="conv-item" data-conv-id="\${c.id}" data-conv-title="\${esc(c.title||'Untitled conversation')}">
           <div class="conv-title">\${esc(c.title||'Untitled conversation')}</div>
           <div class="conv-meta">\${fmtDate(c.started_at)} · last msg \${fmtDate(c.last_message_at)}</div>
         </div>\`).join('') : '<div style="font-size:12px;color:var(--muted)">No conversations yet</div>'}
     </div>
   \`;
+  $('#drawerContent').addEventListener('click', e => {
+    const item = e.target.closest('[data-conv-id]');
+    if (item) openConv(item.dataset.convId, item.dataset.convTitle);
+  });
 }
 
 // ── Conversation detail drawer ──
